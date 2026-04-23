@@ -13,6 +13,7 @@ exports.renderAddBlog = (req, res) => {
 
 // Create blog
 exports.createBlog = async (req, res) => {
+  const {userId}=req
   const { title, subtitle, description } = req.body;
 
   if (!title || !subtitle || !description) {
@@ -28,6 +29,7 @@ exports.createBlog = async (req, res) => {
     subTitle: subtitle,
     description: description,
     imageUrl: req.file.filename,
+    userId:userId
   });
 
   res.redirect("/");

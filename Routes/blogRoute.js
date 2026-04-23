@@ -8,8 +8,13 @@ const { storage, multer } = require("../middleware/multerConfig");
 const upload = multer({ storage: storage });
 
 router.get("/", blogController.getAllBlogs);
-router.get("/addblog",blogController.renderAddBlog);
-router.post("/addblog", upload.single("image"), blogController.createBlog);
+router.get("/addblog",isAuthenticated,blogController.renderAddBlog);
+router.post(
+  "/addblog",
+  isAuthenticated,
+  upload.single("image"),
+  blogController.createBlog
+);
 
 router.get("/blog/:id", blogController.getSingleBlog);
 router.get("/delete/:id", blogController.deleteBlog);
