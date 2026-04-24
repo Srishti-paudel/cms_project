@@ -17,7 +17,11 @@ const userRoute = require("./routes/userRoute");
 
 app.use("/", blogRoute);
 app.use("/", userRoute);
-
+app.use((req,res,next)=>{
+res.locals.currentUser = req.cookies.token
+console.log(res.locals.currentUser)
+  next()
+})
 const PORT = 3005;
 app.listen(PORT, () => {
   console.log(`Nodejs project has started at port ${PORT}`);

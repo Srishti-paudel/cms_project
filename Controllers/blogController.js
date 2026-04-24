@@ -1,8 +1,15 @@
-const { blogs } = require("../model/index");
+const { blogs,users } = require("../model/index");
 
 // Home page
 exports.getAllBlogs = async (req, res) => {
-  const blogsTableblogs = await blogs.findAll();
+
+  const blogsTableblogs = await blogs.findAll({
+    include:{
+      model:users
+    }
+  });
+  // console.log(blogsTableblogs)
+  // console.log(JSON.stringify(blogsTableblogs, null, 2));
   res.render("home", { blogs: blogsTableblogs });
 };
 

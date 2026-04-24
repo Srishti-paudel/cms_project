@@ -17,7 +17,7 @@ router.post(
 );
 
 router.get("/blog/:id", blogController.getSingleBlog);
-router.get("/delete/:id", blogController.deleteBlog);
+router.get("/delete/:id",isAuthenticated, blogController.deleteBlog);
 
 router.get("/update/:id", blogController.renderUpdateBlog);
 router.post("/update/:id", blogController.updateBlog);
