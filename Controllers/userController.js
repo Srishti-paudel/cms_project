@@ -1,7 +1,9 @@
 const { users } = require("../model/index");
-const bcrypt= require ("bcryptjs")
+const bcrypt= require ("bcryptjs");
+const { text } = require("express");
 const jwt=require('jsonwebtoken')
 // Register page
+const sendEmail = require("../services/sendEmail");
 exports.renderRegister = (req, res) => {
   res.render("register");
 };
@@ -67,4 +69,20 @@ else{
 exports.logOutUser=(req,res)=>{
   res.clearCookie('token')
   res.redirect('/login')
+}
+exports.forgotpassword=(req,res)=>{
+  res.render('forgotpassword')
+}
+exports.handleforgotPassword=async(req,res)=>{
+const {email}=req.body;
+if(!email){
+  res.send("please provide a valid email address")
+}
+const data={
+  email:email,
+  subject:"Reset Password",
+  text:"Your otp is:"+1234
+}
+await sendEmail(data)
+res.send("otp send succesfully")
 }

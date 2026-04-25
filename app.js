@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
-
+require("dotenv").config();
 require("./model/index");
 
 app.set("view engine", "ejs");
