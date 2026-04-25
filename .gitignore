@@ -1,5 +1,4 @@
-nodemodules
-package.json
-package-lock.json
+nodemodules/
+
 .env
 defaultfile
