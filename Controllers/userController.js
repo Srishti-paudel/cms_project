@@ -64,3 +64,7 @@ else{
 }
   }
 }
+exports.logOutUser=(req,res)=>{
+  res.clearCookie('token')
+  res.redirect('/login')
+}
