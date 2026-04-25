@@ -2,13 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
+
 const sendSms=require("./services/sendSms");
+
+
+
 
 require("./model/index");
 
 
-console.log("SID:", process.env.twilioauth);
-console.log("AUTH:", process.env.twiliosec);
+console.log("SID:", process.env.twiloauth);
+console.log("AUTH:", process.env.twilosec);
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
