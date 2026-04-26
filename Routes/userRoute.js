@@ -10,4 +10,6 @@ router.post('/login',userController.loginUser);
 router.get('/logout',userController.logOutUser);
 router.get('/forgotpassword', userController.forgotpassword);
 router.post('/forgotpassword', userController.handleforgotPassword);
+
+router.post('/OTPForm',userController.verfyOTP);
 module.exports = router;

@@ -11,8 +11,8 @@ const sendSms=require("./services/sendSms");
 require("./model/index");
 
 
-console.log("SID:", process.env.twiloauth);
-console.log("AUTH:", process.env.twilosec);
+// console.log("SID:", process.env.twiloauth);
+// console.log("AUTH:", process.env.twilosec);
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
@@ -32,7 +32,7 @@ const userRoute = require("./routes/userRoute");
 
 app.use("/", blogRoute);
 app.use("/", userRoute);
-sendSms("+9779846784743")
+//sendSms("+9779846784743")
 const PORT = 3005;
 app.listen(PORT, () => {
   console.log(`Nodejs project has started at port ${PORT}`);

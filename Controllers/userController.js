@@ -73,16 +73,77 @@ exports.logOutUser=(req,res)=>{
 exports.forgotpassword=(req,res)=>{
   res.render('forgotpassword')
 }
-exports.handleforgotPassword=async(req,res)=>{
-const {email}=req.body;
-if(!email){
-  res.send("please provide a valid email address")
-}
-const data={
-  email:email,
-  subject:"Reset Password",
-  text:"Your otp is:"+1234
-}
-await sendEmail(data)
-res.send("otp send succesfully")
-}
+exports.handleforgotPassword = async (req, res) => {
+  const { email } = req.body;
+  console.log(req.body)
+
+  if (!email) {
+    return res.send("Please provide a valid email ❌");
+  }
+
+  const user = await users.findOne({
+    where: { email }
+  });
+
+  if (!user) {
+    return res.send("No user exists with that email ❌");
+  }
+
+  const generatedOTP = Math.floor(1000 + Math.random() * 9000);
+
+  const data = {
+    email: email,
+    subject: "Reset Password",
+    text: "Your OTP is: " + generatedOTP
+  };
+
+  await sendEmail(data);
+
+  user.otp = generatedOTP;
+  await user.save();
+
+  res.render("OTPform", { email }); // send email to next step
+};
+
+  // exports.verfyOTP = async(req,res)=>{
+  //   const {otp}=req.body
+  //   const data= await users.findAll({
+  //     where:{
+  //       otp:otp
+  //     }
+  //   })
+  //   if(data.length<0){
+  //     return res.send("invalid otp")
+  //   }
+  //   res.send("correct otp")
+  // }
+  exports.verfyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+     console.log(req.body)
+    // 1. validation
+    if (!email || !otp) {
+      return res.send("Email and OTP are required ");
+    }
+
+    // 2. find user
+    const user = await users.findOne({
+      where: {
+        email: email,
+        otp: otp
+      }
+    });
+
+    // 3. check user
+    if (!user) {
+      return res.send("Invalid OTP ❌");
+    }
+
+    // 4. success
+    res.send("OTP verified successfully ✅");
+
+  } catch (error) {
+    console.log(error);
+    res.send("Something went wrong");
+  }
+};
