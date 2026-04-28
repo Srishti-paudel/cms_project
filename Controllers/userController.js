@@ -100,6 +100,7 @@ exports.handleforgotPassword = async (req, res) => {
   await sendEmail(data);
 
   user.otp = generatedOTP;
+  user.otpGeneratedTime =Date.now();
   await user.save();
 
   res.render("OTPform", { email }); // send email to next step
@@ -117,7 +118,7 @@ exports.handleforgotPassword = async (req, res) => {
   //   }
   //   res.send("correct otp")
   // }
-  exports.verfyOTP = async (req, res) => {
+  exports.verifyOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
      console.log(req.body)
@@ -135,15 +136,67 @@ exports.handleforgotPassword = async (req, res) => {
     });
 
     // 3. check user
-    if (!user) {
-      return res.send("Invalid OTP ❌");
+    if (!user || user.length==0) {
+      return res.send("Invalid OTP ");
     }
+   const currentTime=Date.now()
+   const otpGenerationTime= user.otpGeneratedTime
+   const timeDiff=(currentTime-otpGenerationTime)/1000/60 // in minutes
+   if(timeDiff>2){
+    return res.send("OTP has expired ");
 
+   }
     // 4. success
-    res.send("OTP verified successfully ✅");
+else{
+  res.redirect(`/resetPassword?email=${email}&otp=${otp}`)
+}
 
   } catch (error) {
     console.log(error);
     res.send("Something went wrong");
   }
 };
+exports.renderResetPassword=(req,res)=>{
+  const { email, otp } = req.query;
+  if(!email ||!otp){
+    res.send("PLease send email and otp");
+  }
+
+  res.render('resetPassword',{email,otp});
+
+}
+exports.handleResetPasssword=async(req,res)=>{
+   const { email, otp } = req.params;
+   console.log("PARAMS:", req.params);
+console.log("BODY:", req.body);
+  const {newPassword,newPasswordConfirm}=req.body;
+  if(!email || !otp || !newPassword || !newPasswordConfirm){
+    res.send("please provide the details properly")
+
+}
+if(newPassword!==newPasswordConfirm){
+  res.send("password and confirm password do not match")
+}
+const userData= await users.findAll({
+  where:{
+    email:email,
+    otp:otp
+  }
+})
+
+ const currentTime=Date.now()
+   const otpGenerationTime= await userData[0].otpGeneratedTime
+   const timeDiff=(currentTime-otpGenerationTime)/1000/60 // in minutes
+   if(timeDiff<=2){
+   userData[0].password=bcrypt.hashSync(newPassword,10)
+   userData[0].save()
+
+res.redirect("/login")
+
+   }
+else{
+
+  return res.redirect('/forgotpassword')
+}
+
+}

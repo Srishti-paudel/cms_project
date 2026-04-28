@@ -16,15 +16,15 @@
      <% blogs.forEach((blog)=>{ %>
     <div class="container">
         <div class="card">
-            <img src="https://via.placeholder.com/300" alt="Card Image">
-            <h2>Card Title 1</h2>
+       
+
             <img src ="<%-blog.imageUrl%>" alt="" srcset="">
             <h2><%-blog.title %></h2>
             <h4><%-blog.subTitle  %></h4>
             <p><%-blog.description  %><p>
             <p>Author: <%-blog.user.username %></p>
                 <a href="/blog/<%-blog.id %>">see more</a>
-            <p>This is a description of the card content. It provides a brief overview.</p>
+
         </div>
        
     </div>

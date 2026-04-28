@@ -17,6 +17,10 @@ module.exports=(sequelize,DataTypes)=>{
         otp:{
       type:DataTypes.STRING,
       allowNull:true
+    },
+    otpGeneratedTime:{
+      type:DataTypes.STRING,
+      
     }
   });
   return User;
