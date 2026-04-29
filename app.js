@@ -35,9 +35,11 @@ app.use((req, res, next) => {
 
 const blogRoute = require("./routes/blogRoute");
 const userRoute = require("./routes/userRoute");
+const commentRoute = require("./routes/commentRoute");
 
 app.use("/", blogRoute);
 app.use("/", userRoute);
+app.use("/", commentRoute);
 //sendSms("+9779846784743")
 const PORT = 3005;
 app.listen(PORT, () => {

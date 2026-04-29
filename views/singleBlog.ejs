@@ -100,9 +100,17 @@
                     <button><a href="/update/<%- blog.id %>">update me</a></button> 
                 <% } %>
         </div>
-       
+        <ul>
+            <% comments.forEach(comment => { %>
+                <li><%- comment.CommentMessage %> - <%- comment.user.username %></li>
+            <% }); %>
+        </ul>
+<form action="/comment" method="POST">       
     
- 
+ <input type="text" name="commentMessage" placeholder="enetr your comment">
+ <input type="hidden" name="blogId" value="<%- blog.id %>">
+ <button type="submit" >Comment</button>
+ </form>
     </section>
 <%- include("footer") %>
     <!-- Footer -->

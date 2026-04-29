@@ -1,4 +1,4 @@
-const { blogs,users } = require("../model/index");
+const { blogs,users ,comments} = require("../model/index");
 
 // Home page
 exports.getAllBlogs = async (req, res) => {
@@ -43,12 +43,21 @@ exports.createBlog = async (req, res) => {
 };
 
 // Single blog
-exports.getSingleBlog = async (req, res) => {
+exports.getSingleBlog = async(req,res) => {
   const id = req.params.id;
   const foundData = await blogs.findByPk(id);
-  res.render("singleBlog", { blog: foundData });
-};
+  const commentsData=await comments.findAll({
+    where:{
+      blogId:id
+    },
+    include:{
+      model:users
+    }
+  })
+  console.log("commentsData",commentsData)
+  res.render("singleBlog", { blog: foundData,comments:commentsData });
 
+}
 // Delete blog
 exports.deleteBlog = async (req, res) => {
   const id = req.params.id;
@@ -84,3 +93,18 @@ exports.updateBlog = async (req, res) => {
 
   res.redirect("/blog/" + id);
 };
+exports.addComment=async(req,res)=>{
+  const userId=req.userId
+const { commentMessage, blogId } = req.body;
+  console.log("commentMessage",commentMessage)
+  console.log("blogId",blogId)
+  if(!commentMessage||!blogId ){
+    return res.send("plaese send comment")
+}
+await comments.create({
+  CommentMessage:commentMessage,
+  userId:userId,
+  blogId:blogId
+})
+res.redirect('/blog/'+blogId)
+}

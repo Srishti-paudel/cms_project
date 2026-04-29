@@ -79,7 +79,7 @@ exports.logOutUser=(req,res)=>{
   res.clearCookie('token')
   res.redirect('/login')
 }
-exports.forgotpassword=(req,res)=>{
+exports.forgotpassword=async(req,res)=>{
  const error= req.flash('error')
  console.log("error:", error)
   res.render('forgotpassword',{error})
