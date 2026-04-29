@@ -1,18 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const catchError = require("../services/catchError");
 
-router.get("/register", userController.renderRegister);
-router.post("/register", userController.registerUser);
-router.get("/users", userController.getAllUsers);
-router.get('/login',userController.renderLoginForm);
-router.post('/login',userController.loginUser);
-router.get('/logout',userController.logOutUser);
-router.get('/forgotpassword', userController.forgotpassword);
-router.post('/forgotpassword', userController.handleforgotPassword);
-router.get('/resetPassword',userController.renderResetPassword);
+router.get("/register",catchError (userController.renderRegister));
+router.post("/register", catchError(userController.registerUser));
+router.get("/users", catchError(userController.getAllUsers));
+router.get('/login',catchError(userController.renderLoginForm));
+router.post('/login',catchError(userController.loginUser));
+router.get('/logout',catchError(userController.logOutUser));
+router.get('/forgotpassword', catchError(userController.forgotpassword));
+router.post('/forgotpassword', catchError(userController.handleforgotPassword));
+router.get('/resetPassword',catchError(userController.renderResetPassword));
 
-router.post('/verifyOTP',userController.verifyOTP);
-router.post('/resetPassword/:email/:otp',userController.handleResetPasssword)
+router.post('/verifyOTP',catchError(userController.verifyOTP));
+router.post('/resetPassword/:email/:otp',catchError(userController.handleResetPasssword))
 
 module.exports = router;

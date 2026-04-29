@@ -30,13 +30,16 @@ exports.registerUser = async (req, res) => {
     res.redirect("/login");
 
   } catch (error) {
-    res.send("Something went wrong");
+console.log(error)
   }
 }
 // Show all users
 exports.getAllUsers = async (req, res) => {
-  const userdata = await users.findAll();
-  res.render("users", { info: userdata });
+ try {const userdata = await users.findAll();
+  res.render("users", { info: userdata });}
+  catch(e){
+    res.send(e.message)
+  }
 };
 exports.renderLoginForm=(req,res)=>{
   const error=req.flash('error');
