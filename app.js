@@ -5,11 +5,17 @@ const cookieParser = require("cookie-parser");
 
 const sendSms=require("./services/sendSms");
 
-
+const session=require("express-session");
+const flash=require("connect-flash"); 
 
 
 require("./model/index");
-
+app.use(session({
+  secret:"hellothisissecret",
+  resave:false,
+  saveUninitialized: false
+}))
+app.use(flash());
 
 // console.log("SID:", process.env.twiloauth);
 // console.log("AUTH:", process.env.twilosec);

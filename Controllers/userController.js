@@ -5,7 +5,10 @@ const jwt=require('jsonwebtoken')
 // Register page
 const sendEmail = require("../services/sendEmail");
 exports.renderRegister = (req, res) => {
-  res.render("register");
+  const error=req.flash('error')
+  res.render("register",{error});
+  
+
 };
 
 // Register user
@@ -14,7 +17,8 @@ exports.registerUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
-      return res.send("Please enter detail properly");
+       const error=req.flash('error',"Please provide all the details")
+      return res.redirect('register')
     }
 
     await users.create({
@@ -28,15 +32,16 @@ exports.registerUser = async (req, res) => {
   } catch (error) {
     res.send("Something went wrong");
   }
-};
-
+}
 // Show all users
 exports.getAllUsers = async (req, res) => {
   const userdata = await users.findAll();
   res.render("users", { info: userdata });
 };
 exports.renderLoginForm=(req,res)=>{
-  res.render('login')
+  const error=req.flash('error');
+  console.log("error",error)
+  res.render('login',{error})
 }
 exports.loginUser=async(req,res)=>{
   const {email,password}=req.body
@@ -62,7 +67,8 @@ exports.loginUser=async(req,res)=>{
  return res.redirect("/");
  }
 else{
-  res.send("credential failed")
+req.flash('error',"Incorrect password or email")
+res.redirect('/login')
 }
   }
 }
@@ -71,7 +77,9 @@ exports.logOutUser=(req,res)=>{
   res.redirect('/login')
 }
 exports.forgotpassword=(req,res)=>{
-  res.render('forgotpassword')
+ const error= req.flash('error')
+ console.log("error:", error)
+  res.render('forgotpassword',{error})
 }
 exports.handleforgotPassword = async (req, res) => {
   const { email } = req.body;
@@ -86,7 +94,8 @@ exports.handleforgotPassword = async (req, res) => {
   });
 
   if (!user) {
-    return res.send("No user exists with that email ❌");
+req.flash('error',"No user found with that email")
+    return res.redirect('/forgotpassword');
   }
 
   const generatedOTP = Math.floor(1000 + Math.random() * 9000);
@@ -124,7 +133,8 @@ exports.handleforgotPassword = async (req, res) => {
      console.log(req.body)
     // 1. validation
     if (!email || !otp) {
-      return res.send("Email and OTP are required ");
+      req.flash('error',"email and otp are required ")
+      res.redirect('/forgotpassword')
     }
 
     // 2. find user

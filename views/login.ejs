@@ -109,10 +109,12 @@ footer {
 
 
 <%- include("navbar") %>
+
 <div class="container">
+
     <h2>Submit Your Information</h2>
     <form action="/login" method="post" >
-        
+        <%- error %>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
 
