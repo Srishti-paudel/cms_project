@@ -92,7 +92,7 @@ exports.updateBlog = async (req, res) => {
   );
 
   res.redirect("/blog/" + id);
-};
+}; 
 exports.addComment=async(req,res)=>{
   const userId=req.userId
 const { commentMessage, blogId } = req.body;
@@ -108,3 +108,30 @@ await comments.create({
 })
 res.redirect('/blog/'+blogId)
 }
+exports.deleteComment = async (req, res) => {
+  const { id } = req.params;
+  const{ userId} = req // FIXED
+
+  const [comment]= await comments.findAll({
+    where: { id }
+  });
+
+  if (!comment) {
+    return res.send("Comment not found");
+  }
+
+  const blogId = comment.blogId;
+
+  console.log("userid", userId);
+  console.log("comment userId", comment.userId);
+
+  if (comment.userId !== userId) {
+    return res.send("You are not the owner of this comment");
+  }
+
+  await comments.destroy({
+    where: { id }
+  });
+
+  return res.redirect(`/blog/${blogId}`);
+};

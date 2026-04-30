@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
+const jwt=require("jsonwebtoken")
 const app = express();
 const cookieParser = require("cookie-parser");
+const {promisify}= require("util")
 
 const sendSms=require("./services/sendSms");
 
@@ -28,8 +30,13 @@ app.use(express.static("uploads"));
 app.use(cookieParser());
 
 // ✅ MUST be BEFORE routes
-app.use((req, res, next) => {
+app.use(async(req, res, next) => {
   res.locals.currentUser = req.cookies.token || null;
+  if(req.cookies.token){
+    const data= await promisify(jwt.verify)(req.cookies.token,'thisissecretkeydontshare')
+    console.log(data)
+    res.locals.currentUserId=data.id
+  }
   next();
 });
 

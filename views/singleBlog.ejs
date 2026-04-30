@@ -103,7 +103,10 @@
         <ul>
             <% comments.forEach(comment => { %>
                 <li><%- comment.CommentMessage %> - <%- comment.user.username %></li>
-            <% }); %>
+              <% if(comment.userId===currentUserId) { %>
+                 <a href="/deletecomment/<%-comment.id %>">Delete</a> 
+                 <% } %>
+            <%  }); %>
         </ul>
 <form action="/comment" method="POST">       
     
@@ -117,4 +120,4 @@
    
 
 </body>
-</html>
+</html  >
