@@ -7,28 +7,38 @@
     <title>Simple Layout with Cards</title>
    <link rel="stylesheet" href="styles/home.css">
       <link rel="stylesheet" href="styles/navbar.css">
+        <link rel="stylesheet" href="/styles/footer.css">
 </head>
 <body>
 <%- include("navbar") %>
    
 <section>
     <!-- Body Section with Cards -->
-     <% blogs.forEach((blog)=>{ %>
+   <section>
     <div class="container">
-        <div class="card">
-       
+        <% blogs.forEach((blog)=>{ %>
 
-            <img src ="<%-blog.imageUrl%>" alt="" srcset="">
-            <h2><%-blog.title %></h2>
-            <h4><%-blog.subTitle  %></h4>
-            <p><%-blog.description  %><p>
-            <p>Author: <%-blog.user.username %></p>
-                <a href="/blog/<%-blog.id %>">see more</a>
+      <div class="card">
 
-        </div>
-       
+    <img src="<%- blog.imageUrl %>" alt="blog image">
+
+    <div class="card-body">
+        <h2><%- blog.title %></h2>
+
+        <h4><%- blog.subTitle %></h4>
+
+        <p><%- blog.description %></p>
+
+        <p>Author: <%- blog.user.username %></p>
+
+        <a href="/blog/<%- blog.id %>">See more</a>
     </div>
- <% }) %>
+
+</div>
+
+        <% }) %>
+    </div>
+</section>
     </section>
 <%- include("footer") %>
     <!-- Footer -->

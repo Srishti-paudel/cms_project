@@ -1,4 +1,3 @@
-
 .env
-nodemodules/
-defaultfile
+nodemodules
+uploads

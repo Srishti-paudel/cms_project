@@ -13,7 +13,7 @@ const flash=require("connect-flash");
 
 require("./model/index");
 app.use(session({
-  secret:"hellothisissecret",
+secret: process.env.SESSION_SECRET,
   resave:false,
   saveUninitialized: false
 }))
@@ -25,30 +25,50 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
-app.use(express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 app.use(cookieParser());
 
 // ✅ MUST be BEFORE routes
-app.use(async(req, res, next) => {
-  res.locals.currentUser = req.cookies.token || null;
-  if(req.cookies.token){
-    const data= await promisify(jwt.verify)(req.cookies.token,'thisissecretkeydontshare')
-    console.log(data)
-    res.locals.currentUserId=data.id
-  }
-  next();
+app.use(async (req, res, next) => {
+    res.locals.currentUser = null;
+    res.locals.currentUserId = null;
+
+    if (req.cookies.token) {
+        try {
+            const data = await promisify(jwt.verify)(
+                req.cookies.token,
+               process.env.JWT_SECRET
+            );
+
+            console.log(data);
+
+            res.locals.currentUser = req.cookies.token;
+            res.locals.currentUserId = data.id;
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    next();
 });
 
 const blogRoute = require("./routes/blogRoute");
 const userRoute = require("./routes/userRoute");
 const commentRoute = require("./routes/commentRoute");
-
+const contactRoute = require("./routes/contactRoute");
 app.use("/", blogRoute);
 app.use("/", userRoute);
 app.use("/", commentRoute);
+app.use("/", contactRoute);
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
 //sendSms("+9779846784743")
-const PORT = 3005;
+
+const PORT = process.env.PORT || 3005;
+
 app.listen(PORT, () => {
   console.log(`Nodejs project has started at port ${PORT}`);
 });

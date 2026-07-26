@@ -31,7 +31,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // importing model files 
-
+db.contacts = require("./contactModel.js")(sequelize, DataTypes);
 db.blogs = require("./blogModel.js")(sequelize, DataTypes);
 db.users = require("./userModel.js")(sequelize, DataTypes);
 db.comments = require("./commentModel.js")(sequelize, DataTypes);
@@ -44,6 +44,8 @@ db.comments.belongsTo(db.users)
 db.blogs.hasMany(db.comments)
 db.comments.belongsTo(db.blogs)
 
+db.users.hasMany(db.contacts);
+db.contacts.belongsTo(db.users);
 db.sequelize.sync({ force: false}).then(() => {
   console.log("yes re-sync done");
 });
