@@ -1,75 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content=""0.5>
-    <title>Simple Layout with Cards</title>
+
+    <title>Blog Details</title>
+
     <link rel="stylesheet" href="/styles/navbar.css">
-<link rel="stylesheet" href="/styles/singleBlog.css">
-<link rel="stylesheet" href="/styles/footer.css">
-   
+    <link rel="stylesheet" href="/styles/singleBlog.css">
+    <link rel="stylesheet" href="/styles/footer.css">
 
 </head>
+
+
 <body>
 
-    <!-- Navigation Bar -->
-        <%- include("navbar") %>
-<div class="container">
+    <%- include("navbar") %>
 
-    <div class="blog-card">
-        <h1><%= blog.title %></h1>
-        <h3><%= blog.subTitle %></h3>
-        <p><%= blog.description %></p>
 
-        <% if(currentUser){ %>
-        <div class="action-buttons">
-            <a href="/delete/<%= blog.id %>">Delete</a>
-            <a href="/update/<%= blog.id %>">Update</a>
-        </div>
-        <% } %>
-    </div>
+    <div class="container">
 
-    <div class="comment-section">
-        <h2>Comments</h2>
+        <div class="blog-card">
 
-        <% if(comments.length>0){ %>
 
-        <ul class="comment-list">
-            <% comments.forEach(comment=>{ %>
+            <!-- Blog Details Section -->
 
-            <li class="comment-item">
-                <div class="comment-content">
-                    <span class="comment-user"><%= comment.user.username %></span>
-                    <span class="comment-text"><%= comment.CommentMessage %></span>
+            <div class="blog-content">
+
+
+                <!-- Image -->
+
+                <div class="image-section">
+
+                    <img src="<%= blog.imageUrl %>" 
+                         alt="blog image"
+                         class="blog-image">
+
                 </div>
 
-                <% if(comment.userId===currentUserId){ %>
-                    <a class="delete-btn" href="/deletecomment/<%= comment.id %>">Delete</a>
+
+
+                <!-- Details -->
+
+                <div class="details-section">
+
+
+                    <h1>
+                        <%= blog.title %>
+                    </h1>
+
+
+                    <h3>
+                        <%= blog.subTitle %>
+                    </h3>
+
+
+                    <p>
+                        <%= blog.description %>
+                    </p>
+
+
+
+                    <% if(currentUser){ %>
+
+                    <div class="action-buttons">
+
+                        <a href="/delete/<%= blog.id %>">
+                            Delete
+                        </a>
+
+
+                        <a href="/update/<%= blog.id %>">
+                            Update
+                        </a>
+
+                    </div>
+
+                    <% } %>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+            <!-- Comment Section -->
+
+            <div class="comment-section">
+
+
+                <h2>
+                    Comments
+                </h2>
+
+
+
+                <% if(comments.length > 0){ %>
+
+
+                <ul class="comment-list">
+
+
+                    <% comments.forEach(comment=>{ %>
+
+
+                    <li class="comment-item">
+
+
+                        <div class="comment-content">
+
+
+                            <span class="comment-user">
+                                <%= comment.user.username %>
+                            </span>
+
+
+                            <span class="comment-text">
+                                <%= comment.CommentMessage %>
+                            </span>
+
+
+                        </div>
+
+
+
+                        <% if(comment.userId === currentUserId){ %>
+
+
+                        <a class="delete-btn"
+                           href="/deletecomment/<%= comment.id %>">
+
+                            Delete
+
+                        </a>
+
+
+                        <% } %>
+
+
+                    </li>
+
+
+                    <% }) %>
+
+
+                </ul>
+
+
+
+                <% } else { %>
+
+
+                    <p class="no-comments">
+                        No comments yet.
+                    </p>
+
+
                 <% } %>
-            </li>
 
-            <% }) %>
-        </ul>
 
-        <% } else { %>
 
-        <p class="no-comments">No comments yet.</p>
 
-        <% } %>
 
-        <form class="comment-form" action="/comment" method="POST">
-            <input type="text" name="commentMessage" placeholder="Write your comment...">
-            <input type="hidden" name="blogId" value="<%= blog.id %>">
-            <button type="submit">Post Comment</button>
-        </form>
+                <!-- Comment Form -->
+
+
+                <form class="comment-form"
+                      action="/comment"
+                      method="POST">
+
+
+                    <input type="text"
+                           name="commentMessage"
+                           placeholder="Write your comment...">
+
+
+                    <input type="hidden"
+                           name="blogId"
+                           value="<%= blog.id %>">
+
+
+                    <button type="submit">
+                        Post Comment
+                    </button>
+
+
+                </form>
+
+
+
+            </div>
+
+
+
+        </div>
+
 
     </div>
 
-</div>
-<%- include("footer") %>
-    <!-- Footer -->
-   
+
+
+
+    <%- include("footer") %>
+
+
 
 </body>
-</html  >
+
+</html>

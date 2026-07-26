@@ -35,7 +35,7 @@ exports.createBlog = async (req, res) => {
     title: title,
     subTitle: subtitle,
     description: description,
-    imageUrl: req.file.filename,
+    imageUrl:"/uploads/" + req.file.filename,
     userId:userId
   });
 
