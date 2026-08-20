@@ -5,14 +5,14 @@ content/file management, and notifications via email and SMS.
 
  Features
 
-- 🔐 **User Authentication** — secure login/signup with hashed passwords (bcrypt) and session-based auth
-- 📝 **Content Management** — create, read, update, and delete content through an admin interface
-- 📂 **File Uploads** — image/document uploads handled via Multer
-- 📧 **Email Notifications** — automated emails via Nodemailer (e.g. account verification, alerts)
-- 📱 **SMS Integration** — Twilio-powered SMS notifications
-- 🍪 **Session & Flash Messaging** — persistent sessions with flash messages for user feedback
-- 🔑 **JWT Support** — token-based auth for protected routes/APIs
-- 🗄️ **MySQL Database** — data modeling and queries via Sequelize ORM
+-  **User Authentication** — secure login/signup with hashed passwords (bcrypt) and session-based auth
+-  **Content Management** — create, read, update, and delete content through an admin interface
+-  **File Uploads** — image/document uploads handled via Multer
+-  **Email Notifications** — automated emails via Nodemailer (e.g. account verification, alerts)
+-  **SMS Integration** — Twilio-powered SMS notifications
+-  **Session & Flash Messaging** — persistent sessions with flash messages for user feedback
+-  **JWT Support** — token-based auth for protected routes/APIs
+-  **MySQL Database** — data modeling and queries via Sequelize ORM
 
 
 Tech Stack
