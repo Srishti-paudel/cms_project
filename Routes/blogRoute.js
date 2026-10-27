@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const {isAuthenticated}= require('../middleware/isAuthenticated')
-const blogController = require("../controllers/blogController");
+const blogController = require("../Controllers/blogController");
 const { storage, multer } = require("../middleware/multerConfig");
 const catchError = require("../services/catchError");
 const upload = multer({ storage: storage });

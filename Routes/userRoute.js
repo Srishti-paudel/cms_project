@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/userController");
+const userController = require("../Controllers/userController");
 const catchError = require("../services/catchError");
 
 router.get("/register",catchError (userController.renderRegister));
