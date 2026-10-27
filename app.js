@@ -56,7 +56,7 @@ app.use(async (req, res, next) => {
 const blogRoute = require("./Routes/blogRoute");
 const userRoute = require("./Routes/userRoute");
 const commentRoute = require("./Routes/commentRoute");
-const contactRoute = require("./routes/contactRoute");
+const contactRoute = require("./Routes/contactRoute");
 app.use("/", blogRoute);
 app.use("/", userRoute);
 app.use("/", commentRoute);
